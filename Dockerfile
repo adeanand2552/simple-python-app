@@ -1,17 +1,14 @@
-# Base image
-FROM python:3.8
+# Use the official Python image as a base
+FROM python:3.9-slim
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy Everything into the container.
-COPY . .
+# Copy the Python script into the container
+COPY welcome.py .
 
-# Install the project dependencies
-RUN pip install -r requirements.txt
+# Expose port 8080
+EXPOSE 8080
 
-# Expose the port the Flask application will be listening on
-EXPOSE 5000
-
-# Run the Flask application
-CMD ["python", "app.py"]
+# Run the Python script when the container starts
+CMD ["python", "welcome.py"]
