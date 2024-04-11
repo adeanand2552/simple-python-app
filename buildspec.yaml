@@ -3,7 +3,7 @@ version: 0.2
 env:
   parameter-store:
     DOCKERHUB_USERNAME: dockerHub-username
-    DOCKERHUB_PASSWORD: /myapp/docker-credentials/password
+    DOCKERHUB_PASSWORD: dockerHub-password
     #Systems Manager: Parameter Store -> create parameter
     #name:dockerHub-username, type:SecureString, Value:<username>
     #name:dockerHub-password, type:SecureString, Value:<password
