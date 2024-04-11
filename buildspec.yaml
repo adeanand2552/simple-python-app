@@ -2,28 +2,28 @@ version: 0.2
 
 env:
   parameter-store:
-    DOCKER_REGISTRY_USERNAME: /myapp/docker-credentials/username
-    DOCKER_REGISTRY_PASSWORD: /myapp/docker-credentials/password
-    DOCKER_REGISTRY_URL: /myapp/docker-registry/url
+    DOCKERHUB_USERNAME: /myapp/docker-credentials/username
+    DOCKERHUB_PASSWORD: /myapp/docker-credentials/password
+    #DOCKER_REGISTRY_URL: /myapp/docker-registry/url
     #Edit these fields with your credentials
+
 phases:
   install:
     runtime-versions:
-      python: 3.11
+      docker: 18
+
   pre_build:
     commands:
-      - echo "Installing dependencies."
-      - pip install -r requirements.txt
+      - echo Logging in to Docker Hub..
+      - echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+
   build:
     commands:
-      - echo "Building Docker image."
-      - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
-      - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/python-app:latest" .
-      - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/python-app:latest"
+      - echo Building the Docker image...
+      - docker build -t $DOCKERHUB_USERNAME/$DOCKERHUB_REPO_NAME .
+      
   post_build:
     commands:
-      - echo "Build completed."
-artifacts:
-  files:
-    - '**/*'
-  base-directory: .
+      - echo Pushing the Docker image to Docker Hub...
+      - docker push $DOCKERHUB_USERNAME/$DOCKERHUB_REPO_NAME
+
