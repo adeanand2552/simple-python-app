@@ -6,7 +6,8 @@ env:
     DOCKERHUB_USERNAME: dockerHub-username
     DOCKERHUB_PASSWORD: dockerHub-password
     #Systems Manager: Parameter Store -> create parameter
-    #name:dockerHub-username, type:SecureString, Value:<username>
+    #name:dockerHub-repo-name, type:String, Value:<repo-name>
+    #name:dockerHub-username, type:String, Value:<username>
     #name:dockerHub-password, type:SecureString, Value:<password
 
 phases:
@@ -16,17 +17,16 @@ phases:
 
   pre_build:
     commands:
-      - echo Logging in to Docker Hub..
+      - echo "Logging in to Docker Hub.."
       - echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
-
   build:
     commands:
-      - echo Building the Docker image...
+      - echo "Building the Docker image.."
       - docker build -t $DOCKERHUB_USERNAME/$DOCKERHUB_REPO_NAME .
-      #- docker tag $DOCKERHUB_REPO_NAME $DOCKERHUB_USERNAME/$DOCKERHUB_REPO_NAME:latest
-      
+      - echo "Successfully Build."      
   post_build:
     commands:
-      - echo Pushing the Docker image to Docker Hub...
+      - echo "Pushing the Docker image to Docker Hub.."
       - docker push $DOCKERHUB_USERNAME/$DOCKERHUB_REPO_NAME
+      - echo "Successfully Pushed."
 
