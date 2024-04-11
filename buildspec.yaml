@@ -2,10 +2,11 @@ version: 0.2
 
 env:
   parameter-store:
-    DOCKERHUB_USERNAME: /myapp/docker-credentials/username
+    DOCKERHUB_USERNAME: dockerHub-username
     DOCKERHUB_PASSWORD: /myapp/docker-credentials/password
-    #DOCKER_REGISTRY_URL: /myapp/docker-registry/url
-    #Edit these fields with your credentials
+    #Systems Manager: Parameter Store -> create parameter
+    #name:dockerHub-username, type:SecureString, Value:<username>
+    #name:dockerHub-password, type:SecureString, Value:<password
 
 phases:
   install:
