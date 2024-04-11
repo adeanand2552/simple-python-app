@@ -21,7 +21,8 @@ phases:
   build:
     commands:
       - echo Building the Docker image...
-      - docker build -t $DOCKERHUB_USERNAME/$DOCKERHUB_REPO_NAME .
+      - docker build -t $DOCKERHUB_REPO_NAME .
+      - docker tag $DOCKERHUB_REPO_NAME $DOCKERHUB_USERNAME/$DOCKERHUB_REPO_NAME:latest
       
   post_build:
     commands:
